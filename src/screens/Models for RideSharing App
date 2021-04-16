@@ -1,0 +1,218 @@
+Models for RideSharing App
+
+user (passenger)
+	id 
+	fullName 
+	email 
+	mobileNo
+	password
+	profileImage
+	confirmed
+	isActive
+	timeCreated
+	lastUpdated
+
+rider 
+	id 
+	fullName 
+	email 
+	mobileNo
+	password
+	walletBalance
+	weeklyEarning[array of number i.e seven numbers] and this is calculated as sundayCash=add all amount of sunday ride history of particular rider
+	profileImage
+	verified
+	isActive
+	vehicleNumber
+	vehicleColor
+	vehicleType
+	vehicleBrand
+	licenseNumber
+	licenseExpiryDate
+	licenseImage1
+	licenseImage2
+	blueBookExpiryDate
+	citizenshipNumber
+	citizenshipImage1
+	citizenshipImage2
+	riderLatitudeCoordinate(initially set when rider loads the maintab screen)
+	riderLongitudeCoordinate(initially set when rider loads the maintab screen)
+	rideCompleted
+	rideCancelled
+	timeCreated
+	lastUpdated
+
+
+rideHistory
+	id
+	passenger
+	rider
+	verificationCode(Generate the code by default so that user can share it to rider and confirm it)
+	rideStatus(Pending,Accepted,Compeleted,Cancelled,Verified)
+	riderCancelNote
+	userCancelNote
+	cost
+	pickupPointLatitudeCoordinate
+	pickupPointLongitudeCoordinate
+	destinationPointLatitudeCoordinate
+	destinationPointLongitudeCoordinate
+	pickupInfo
+	destinationInfo
+	timeCreated(Be default as now)
+	timePeriod
+	timeCompleted
+	codeVerified
+	lastUpdated
+
+
+notification
+	id
+	description
+	iconName
+	timeCreated
+	lastUpdated
+
+savedAddress
+	id
+	user
+	title
+	description
+	iconName
+	timeCreated
+	lastUpdated
+
+club
+	id
+	title
+	description
+	iconName
+	timeCreated
+	lastUpdated
+
+eventDetail
+	id 
+	club
+	title
+	description
+	eventImage
+	location
+	eventDate
+	timeCreated
+	lastUpdated
+
+faq
+	id
+	title
+	description
+	timeCreated
+	lastUpdated
+
+Privacy
+	id
+	title
+	description
+	timeCreated
+	lastUpdated
+
+aboutUs
+	id
+	title
+	description
+	timeCreated
+	lastUpdated
+
+
+Earning
+ id
+ rider
+ sundayCash=add all amount of sunday ride history of particular rider
+ mondayCash=add all amount of monday ride history  of particular rider
+ tuesdayCash=add all amount of tuesday ride history  of particular rider
+ wednesdayCash=add all amount of wednesday ride history of  particular rider
+ thursdayCash=add all amount of thurday ride history of  particular rider
+ fridayCash=add all amount of friday ride history of  particular rider
+ saturdayCash=add all amount of saturday ride history of  particular rider
+
+
+In every ride complete status
+
+walletBalance[should be updated by adding rideHistory cost]
+completedTrips[should be updated by 1]
+
+weeklyEarning[array of number i.e seven numbers] and this is calculated as sundayCash=add all amount of sunday ride history of particular rider
+
+weeklyEarning
+if(rideHistory.status i.e ride completed status){
+newRiderWalletBalance=rider.walletBalance+riderRideHistoryCost of latest ride
+newCompletedTrips=rider.completedTrips+1
+
+if(rideHistorytimeCreated==sunday)
+newWeeklyEarning=[rider.WeaklyEarning[0]+riderRideHistoryCost]
+
+}	
+
+when user sends ride request
+
+rideHistory(post data to server)
+	passenger id
+	status(Pending)
+	cost (30)
+	pickupPointLatitudeCoordinate
+	pickupPointLongitudeCoordinate
+	destinationPointLatitudeCoordinate
+	destinationPointLongitudeCoordinate
+	pickupInfo
+	destinationInfo
+
+when rider accpets the ride request
+    (RiderApp)	
+	
+	rideHistory(update data to server i.e id as parameters of rideHistory)
+		rider id
+		rideStatus(Accepted)
+		when rideStatus is true(driver should not be allowed to accept other request)
+
+
+	
+	Should navigate to User information screen there should not be header to go back only cancel button
+ 	Add see user location and destination on map
+	When rider touches cancel button
+		rideHistory(update data to server i.e id as parameters of rideHistory )
+		    rider id
+		    rideStatus(Cancelled)
+		    cancelledRideRequest(add by 1)
+
+
+	
+	navigate rider to user location and destination  screen where button(Completed) is shown
+
+		When ride is completed  and rider touches Compeleted Button
+		rider(update data to server i.e id as parameters of rideHistory)
+			ridingStatus(false meaning driver is in waiting mode)
+		rideHistory(update data to server i.e id as parameters of rideHistory )
+			status(Compeleted)
+	
+In every ride complete status
+
+rider(update data to server i.e id as parameters of rider)
+	walletBalance[should be updated by adding rideHistory cost]
+	completedTrips[should be updated by 1]
+
+weeklyEarning[array of number i.e seven numbers] and this is calculated as sundayCash=add all amount of sunday ride history of particular rider
+weeklyEarning
+if(rideHistory.status i.e ride completed status){
+newRiderWalletBalance=rider.walletBalance+riderRideHistoryCost of latest ride
+newCompletedTrips=rider.completedTrips+1
+
+if(rideHistorytimeCreated==sunday)
+newWeeklyEarning=[rider.WeaklyEarning[0]+riderRideHistoryCost]
+
+}	
+
+
+
+npm install @expo/vector-icons @react-native-async-storage/async-storage @react-native-community/masked-view @react-native-community/netinfo @react-navigation/bottom-tabs @react-navigation/native @react-navigation/stack axios expo-app-loading expo-asset expo-constants expo-image-picker expo-linear-gradient expo-location expo-notifications expo-permissions expo-status-bar formik react-native-chart-kit react-native-flash-message react-native-gesture-handler react-native-keyboard-aware-scrollview react-native-maps react-native-ratings react-native-reanimated react-native-safe-area-context react-native-screens react-native-svg yup --save
+
+
+	
+
